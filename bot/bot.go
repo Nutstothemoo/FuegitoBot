@@ -12,7 +12,7 @@ import (
 
 
 var BotID string
-var goBot *discordgo.Session
+
 
 func Start() {
 	goBot, err := discordgo.New("Bot " + config.Token)
@@ -46,14 +46,16 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == BotID {
 		return
 	}
+
+	if m.Content == "hello" || m.Content == "Bonjour" {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Hi, "+ m.Author.Username +" I'm on 🔥 Fueg ")
+	}
 	args := strings.Split(m.Content, " ")
 	if args[0] == config.BotPrefix {
 		return
 	}
 	
-	if m.Content == "hello" || m.Content == "Bonjour" {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Hi, "+m.Author.Username+" I'm on 🔥 Fueg ")
-	}
+
 
 	prompt := m.Content[len(config.BotPrefix):]
 
@@ -86,7 +88,12 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// Envoyez la réponse du modèle GPT-3.5 turbo sur le serveur Discord
 	
-	// s.ChannelMessageSend(m.ChannelID,  completions)
+	if len(completions.Choices) > 0 {
+		messageContent := completions.Choices[0].Message.Content
+		s.ChannelMessageSend(m.ChannelID, messageContent)
+	} else {
+		s.ChannelMessageSend(m.ChannelID, "Aucune réponse n'a été reçue du modèle.")
+	}
 	
 }
 
