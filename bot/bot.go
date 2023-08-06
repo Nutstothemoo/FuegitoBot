@@ -2,7 +2,6 @@ package bot
 
 import (
 	"fmt"
-	"strings"
 
 	"bot/config"
 
@@ -15,6 +14,7 @@ var BotID string
 
 
 func Start() {
+	var goBot *discordgo.Session
 	goBot, err := discordgo.New("Bot " + config.Token)
 
 	if err != nil {
@@ -50,10 +50,10 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Content == "hello" || m.Content == "Bonjour" {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Hi, "+ m.Author.Username +" I'm on 🔥 Fueg ")
 	}
-	args := strings.Split(m.Content, " ")
-	if args[0] == config.BotPrefix {
-		return
-	}
+	// args := strings.Split(m.Content, " ")
+	// if args[0] == config.BotPrefix {
+	// 	return
+	// }
 	
 
 
@@ -92,7 +92,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		messageContent := completions.Choices[0].Message.Content
 		s.ChannelMessageSend(m.ChannelID, messageContent)
 	} else {
-		s.ChannelMessageSend(m.ChannelID, "Aucune réponse n'a été reçue du modèle.")
+		s.ChannelMessageSend(m.ChannelID, "Aie Aie je suis completement casser comme bot ")
 	}
 	
 }
