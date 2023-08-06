@@ -3,13 +3,14 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 )
 
 var (
 	Token     string
 	BotPrefix string
-
+	Apikey    string   
+  Apiorg    string    
 	config *configStruct
 )
 
@@ -21,7 +22,7 @@ type configStruct struct {
 func ReadConfig() error {
 	fmt.Println("Reading config file...")
 
-	file, err := ioutil.ReadFile("./config.json")
+	file, err := os.ReadFile("./config.json")
 
 	if err != nil {
 		fmt.Println((err.Error()))

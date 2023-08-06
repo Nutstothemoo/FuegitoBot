@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/akhil/discord-ping/bot"
-	"github.com/akhil/discord-ping/config"
+	"bot/bot"
+	"bot/config"
 )
 
 func main() {

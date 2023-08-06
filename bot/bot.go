@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/akhil/discord-ping/config"
+	"bot/config"
+
 	"github.com/bwmarrin/discordgo"
 )
+
+
 
 var BotID string
 var goBot *discordgo.Session
@@ -51,22 +54,40 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Content == "hello" || m.Content == "Bonjour" {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Hi, "+m.Author.Username+" I'm on 🔥 Fueg ")
 	}
-	prompt := m.Content[len(prefix):]
 
-	response, err := getOpenAIResponse(prompt)
+	prompt := m.Content[len(config.BotPrefix):]
+
+	apikey:=config.Apikey
+	organization:=config.Apiorg
+ 	client := NewClient(apikey, organization)
+
+ r := CreateCompletionsRequest{
+  Model: "gpt-3.5-turbo",
+  Messages: []Message{
+   {
+    Role:    m.Author.Username,
+    Content: prompt,
+   },
+  },
+  Temperature: 0.7,
+ }
+
+ completions, err := client.CreateCompletions(r)
+ if err != nil {
+  panic(err)
+ }
+
+ fmt.Println(completions)
+
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "Une erreur s'est produite lors de la communication avec l'API OpenAI.")
 		return
 	}
 
 	// Envoyez la réponse du modèle GPT-3.5 turbo sur le serveur Discord
-	s.ChannelMessageSend(m.ChannelID,  response)
+	
+	// s.ChannelMessageSend(m.ChannelID,  completions)
 	
 }
-func getOpenAIResponse(prompt string) (string, error) {
 
-	// apiURL := 
-	// apiKey := 
 
-	return response, nil
-}
