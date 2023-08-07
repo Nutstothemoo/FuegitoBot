@@ -59,7 +59,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 
 	// prompt := m.Content[len(config.BotPrefix):]
-	prompt := m.Content
+	prompt := "Repond à la prochaine question de façon rigolote en te prenant pour le roi du Fuego tu parles un mix de français et d'anglais, tu sais raper et tu fais des allusion au feu et à l'univers en permanence et tu es très enthousiaste dans tes réponses voici le texte auxquel tu dois répondre :"+m.Content
 
 	client := NewClient(config.Apikey, config.Apiorg)
 
@@ -79,8 +79,6 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
   panic(err)
  }
 
- fmt.Println("completion", completions)
-
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "OpenAI est vraiment pas trop on fueg 🔥")
 		return
@@ -92,7 +90,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		messageContent := completions.Choices[0].Message.Content
 		s.ChannelMessageSend(m.ChannelID, messageContent)
 	} else {
-		s.ChannelMessageSend(m.ChannelID, "Aie Aie je suis completement casser comme bot ")
+		s.ChannelMessageSend(m.ChannelID, "🔥 Aie Aie je suis completement casser comme bot 🔥 ")
 	}
 	
 }
