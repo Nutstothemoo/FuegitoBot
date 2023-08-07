@@ -50,6 +50,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Content == "hello" || m.Content == "Bonjour" {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Hi, "+ m.Author.Username +" I'm on 🔥 Fueg ")
 	}
+	
 	// args := strings.Split(m.Content, " ")
 	// if args[0] == config.BotPrefix {
 	// 	return
@@ -57,17 +58,16 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	
 
 
-	prompt := m.Content[len(config.BotPrefix):]
+	// prompt := m.Content[len(config.BotPrefix):]
+	prompt := m.Content
 
-	apikey:=config.Apikey
-	organization:=config.Apiorg
- 	client := NewClient(apikey, organization)
+	client := NewClient(config.Apikey, config.Apiorg)
 
  r := CreateCompletionsRequest{
   Model: "gpt-3.5-turbo",
   Messages: []Message{
    {
-    Role:    m.Author.Username,
+    Role:    "user",
     Content: prompt,
    },
   },
@@ -79,10 +79,10 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
   panic(err)
  }
 
- fmt.Println(completions)
+ fmt.Println("completion", completions)
 
 	if err != nil {
-		s.ChannelMessageSend(m.ChannelID, "Une erreur s'est produite lors de la communication avec l'API OpenAI.")
+		s.ChannelMessageSend(m.ChannelID, "OpenAI est vraiment pas trop on fueg 🔥")
 		return
 	}
 

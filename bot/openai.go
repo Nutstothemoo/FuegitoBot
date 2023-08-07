@@ -36,7 +36,7 @@ import (
  }
  
  // NewClient creates a new client
- func NewClient(apiKey string, organization string) *Client {
+ func NewClient( apiKey string, organization string) *Client {
 	return &Client{
 	 apiKey:       apiKey,
 	 Organization: organization,

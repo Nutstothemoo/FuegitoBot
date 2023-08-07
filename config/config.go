@@ -17,6 +17,8 @@ var (
 type configStruct struct {
 	Token     string `json:"Token"`
 	BotPrefix string `json:"BotPrefix"`
+	Apikey    string   `json:"Apikey"`
+  Apiorg    string    `json:"Apiorg"`
 }
 
 func ReadConfig() error {
@@ -40,6 +42,8 @@ func ReadConfig() error {
 
 	Token = config.Token
 	BotPrefix = config.BotPrefix
+	Apikey = config.Apikey
+	Apiorg = config.Apiorg
 
 	return nil
 }
